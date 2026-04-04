@@ -26,5 +26,46 @@ export interface Summary {
   byNfq: { nfqLevel: string; count: number }[]
 }
 
-export type FilterType = 'All' | 'English Language' | 'Higher Education' | 'Professional' | 'Foundation'
-export type FilterNfq = 'All' | '6' | '7' | '8' | '9' | 'N/A'
+export interface ProviderCourse {
+  title: string
+  nfq: string | null
+  duration: string
+  fee: number
+  sector: string
+}
+
+export interface Provider {
+  slug: string
+  name: string
+  shortName: string
+  county: string
+  city: string
+  type: string
+  ranking: string
+  website: string
+  feesUrl: string
+  logo: string
+  ilep: boolean
+  trustedIreland: boolean
+  description: string
+  feesUG: { min: number; max: number; note: string }
+  feePG: { min: number; max: number; note: string }
+  ielts: string
+  topCourses: ProviderCourse[]
+  sectors: string[]
+}
+
+export interface Sponsor { name: string; slug: string }
+export interface CareerPath {
+  id: string
+  sector: string
+  icon: string
+  label: string
+  sectorName: string
+  description: string
+  permitsPerYear: number | null
+  trendUp: boolean
+  keywords: string[]
+  nfqFocus: string[]
+  topSponsors: Sponsor[]
+}

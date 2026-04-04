@@ -1,0 +1,154 @@
+[
+  {
+    "id": "tech",
+    "sector": "J",
+    "icon": "💻",
+    "label": "Technology & IT",
+    "sectorName": "Information & Communication",
+    "description": "Software engineering, data science, cybersecurity, cloud and IT management",
+    "permitsPerYear": 3630,
+    "trendUp": true,
+    "keywords": ["computer", "software", "data", "information technology", "cyber", "network", "programming", "digital", "cloud", "computing", "artificial intelligence", "machine learning", "web develop", "devops", "it management", "information systems", "fintech", "blockchain"],
+    "nfqFocus": ["8", "9"],
+    "topSponsors": [
+      { "name": "Google Ireland Limited", "slug": "google-ireland-limited" },
+      { "name": "Amazon Development Centre", "slug": "amazon-development-centre-ireland-ltd" },
+      { "name": "Meta (Facebook Ireland)", "slug": "facebook-ireland-ltd" },
+      { "name": "Microsoft Ireland Operations", "slug": "microsoft-ireland-operations-ltd" },
+      { "name": "Stripe", "slug": "stripe-payments-europe-ltd" },
+      { "name": "Salesforce", "slug": "salesforce-com-emea-ltd" },
+      { "name": "Accenture", "slug": "accenture" },
+      { "name": "IBM Ireland", "slug": "ibm-ireland-limited" }
+    ]
+  },
+  {
+    "id": "healthcare",
+    "sector": "Q",
+    "icon": "🏥",
+    "label": "Healthcare & Social Work",
+    "sectorName": "Human Health & Social Work Activities",
+    "description": "Nursing, medicine, pharmacy, social care, physiotherapy and allied health professions",
+    "permitsPerYear": 7948,
+    "trendUp": true,
+    "keywords": ["nursing", "nurse", "health", "medical", "pharmacy", "social care", "care", "physiotherapy", "occupational therapy", "speech", "midwi", "radiograph", "clinical", "paramedic", "dentist", "dental", "psychiatr", "mental health", "gerontolog", "palliative", "healthcare management"],
+    "nfqFocus": ["8", "9"],
+    "topSponsors": [
+      { "name": "Cork University Hospital", "slug": "cork-university-hospital" },
+      { "name": "Beaumont Hospital", "slug": "beaumont-hospital" },
+      { "name": "St. James's Hospital", "slug": "st-james-s-hospital" },
+      { "name": "HSE (Health Service Executive)", "slug": "health-service-executive" },
+      { "name": "Redwood Extended Care Facility", "slug": "redwood-extended-care-facility" },
+      { "name": "UPMC Whitfield Hospital", "slug": "upmc-whitfield-hospital" },
+      { "name": "Mater Misericordiae Hospital", "slug": "mater-misericordiae-university-hospital" }
+    ]
+  },
+  {
+    "id": "finance",
+    "sector": "K",
+    "icon": "💰",
+    "label": "Finance & Insurance",
+    "sectorName": "Financial & Insurance Activities",
+    "description": "Accounting, financial analysis, banking, insurance, actuarial science and investment",
+    "permitsPerYear": 1200,
+    "trendUp": false,
+    "keywords": ["finance", "financial", "accounting", "economics", "investment", "banking", "insurance", "actuarial", "taxation", "audit", "treasury", "risk management", "CPA", "ACCA", "ACA", "CFA", "fintech"],
+    "nfqFocus": ["8", "9"],
+    "topSponsors": [
+      { "name": "Ernst & Young (EY)", "slug": "ernst-young" },
+      { "name": "Deloitte Ireland", "slug": "deloitte-ireland-llp" },
+      { "name": "KPMG Ireland", "slug": "kpmg" },
+      { "name": "PwC Ireland", "slug": "pricewaterhousecoopers" },
+      { "name": "Bank of Ireland", "slug": "bank-of-ireland" },
+      { "name": "AIB Group", "slug": "allied-irish-banks-plc" },
+      { "name": "BNY Mellon", "slug": "bny-mellon" }
+    ]
+  },
+  {
+    "id": "engineering",
+    "sector": "C",
+    "icon": "⚙️",
+    "label": "Engineering & Manufacturing",
+    "sectorName": "Manufacturing / Construction / Energy",
+    "description": "Civil, mechanical, electrical and chemical engineering, pharma manufacturing and construction",
+    "permitsPerYear": 2200,
+    "trendUp": true,
+    "keywords": ["engineering", "civil", "mechanical", "electrical", "chemical", "structural", "environmental", "construction", "architecture", "manufacturing", "pharma", "process", "quality engineer", "biomedical engineer", "automation", "robotics", "energy", "renewable"],
+    "nfqFocus": ["8", "9"],
+    "topSponsors": [
+      { "name": "Johnson & Johnson Vision", "slug": "johnson-johnson-vision" },
+      { "name": "Intel Ireland", "slug": "intel-ireland-ltd" },
+      { "name": "Boston Scientific", "slug": "boston-scientific" },
+      { "name": "Pfizer Ireland", "slug": "pfizer-ireland-pharmaceuticals" },
+      { "name": "AbbVie Ireland", "slug": "abbvie-ireland-unlimited-company" },
+      { "name": "Eli Lilly Kinsale", "slug": "eli-lilly-sa" }
+    ]
+  },
+  {
+    "id": "hospitality",
+    "sector": "I",
+    "icon": "🍽️",
+    "label": "Hospitality & Food Service",
+    "sectorName": "Accommodation & Food Services",
+    "description": "Hotel management, tourism, culinary arts, catering and food processing",
+    "permitsPerYear": 3499,
+    "trendUp": true,
+    "keywords": ["hospitality", "tourism", "hotel", "catering", "culinary", "food", "beverage", "events", "chef", "restaurant", "barista", "front office", "housekeeping", "travel", "leisure"],
+    "nfqFocus": ["6", "7", "8"],
+    "topSponsors": [
+      { "name": "Dawn Meats Ireland", "slug": "dawn-meats-ireland-uc" },
+      { "name": "Hilton Hotels Ireland", "slug": "hilton" },
+      { "name": "Marriott International", "slug": "marriott-international" },
+      { "name": "ABP Food Group", "slug": "abp-food-group" },
+      { "name": "SSP Ireland", "slug": "ssp-ireland" }
+    ]
+  },
+  {
+    "id": "business",
+    "sector": "M",
+    "icon": "📊",
+    "label": "Business & Management",
+    "sectorName": "Professional, Scientific & Technical",
+    "description": "Business administration, MBA, marketing, HR, supply chain and project management",
+    "permitsPerYear": 1800,
+    "trendUp": false,
+    "keywords": ["business", "management", "MBA", "enterprise", "marketing", "human resources", "HR", "supply chain", "logistics", "project management", "operations", "strategic", "commerce", "retail management", "e-commerce", "international business", "entrepreneurship"],
+    "nfqFocus": ["8", "9"],
+    "topSponsors": [
+      { "name": "Accenture", "slug": "accenture" },
+      { "name": "Cognizant Technology Solutions", "slug": "cognizant-technology-solutions" },
+      { "name": "Oracle EMEA", "slug": "oracle-emea-limited" },
+      { "name": "Lidl Ireland", "slug": "lidl-ireland" },
+      { "name": "Tesco Ireland", "slug": "tesco-ireland-limited" }
+    ]
+  },
+  {
+    "id": "education",
+    "sector": "P",
+    "icon": "📚",
+    "label": "Education & Teaching",
+    "sectorName": "Education",
+    "description": "Primary, secondary and tertiary teaching, TEFL, early childhood education and training",
+    "permitsPerYear": 520,
+    "trendUp": false,
+    "keywords": ["education", "teaching", "TEFL", "early childhood", "Montessori", "primary", "secondary", "special education", "literacy", "training", "pedagogy", "adult education"],
+    "nfqFocus": ["7", "8", "9"],
+    "topSponsors": [
+      { "name": "ETBs (Education & Training Boards)", "slug": "etb" },
+      { "name": "Various Secondary Schools", "slug": "schools" },
+      { "name": "Solas (Further Education)", "slug": "solas" }
+    ]
+  },
+  {
+    "id": "language",
+    "sector": "ALL",
+    "icon": "🗣️",
+    "label": "English Language",
+    "sectorName": "Gateway to All Sectors",
+    "description": "English language courses (B1–C2) that qualify for Stamp 2 and improve career prospects across all sectors",
+    "permitsPerYear": null,
+    "trendUp": true,
+    "keywords": ["english", "language", "ielts", "toefl", "cambridge", "general english", "business english", "academic english", "exam preparation"],
+    "nfqFocus": [],
+    "topSponsors": []
+  }
+]
