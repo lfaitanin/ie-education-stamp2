@@ -1,0 +1,96 @@
+{
+  "lastUpdated": "2026-04-04",
+  "sourceUrl": "https://www.irishimmigration.ie/wp-content/uploads/2026/02/ILEP-11-February-2026.xlsx",
+  "totalProgrammes": 1237,
+  "totalProviders": 85,
+  "byType": [
+    {
+      "type": "English Language",
+      "count": 1152
+    },
+    {
+      "type": "Higher Education",
+      "count": 78
+    },
+    {
+      "type": "Professional",
+      "count": 4
+    },
+    {
+      "type": "Foundation",
+      "count": 3
+    }
+  ],
+  "byCounty": [
+    {
+      "county": "Dublin",
+      "count": 859
+    },
+    {
+      "county": "Cork",
+      "count": 180
+    },
+    {
+      "county": "Limerick",
+      "count": 75
+    },
+    {
+      "county": "Kildare",
+      "count": 49
+    },
+    {
+      "county": "Galway",
+      "count": 31
+    },
+    {
+      "county": "Kerry",
+      "count": 26
+    },
+    {
+      "county": "Carlow",
+      "count": 7
+    },
+    {
+      "county": "Wexford",
+      "count": 6
+    },
+    {
+      "county": "Sligo",
+      "count": 3
+    },
+    {
+      "county": "Donegal",
+      "count": 1
+    }
+  ],
+  "byNfq": [
+    {
+      "nfqLevel": "10",
+      "count": 4
+    },
+    {
+      "nfqLevel": "9",
+      "count": 31
+    },
+    {
+      "nfqLevel": "8",
+      "count": 34
+    },
+    {
+      "nfqLevel": "7",
+      "count": 9
+    },
+    {
+      "nfqLevel": "6",
+      "count": 2
+    },
+    {
+      "nfqLevel": "5",
+      "count": 1
+    },
+    {
+      "nfqLevel": "N/A",
+      "count": 1156
+    }
+  ]
+}
