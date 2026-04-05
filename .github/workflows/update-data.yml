@@ -1,0 +1,51 @@
+name: Update Education Data
+
+# ILEP: check monthly (1st of each month at 07:00 UTC)
+# The ILEP page URL changes when a new file is published — the ETL
+# auto-detects the latest URL, so this will pick up any new release.
+on:
+  schedule:
+    - cron: '0 7 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch latest ILEP data from irishimmigration.ie
+        run: npm run data
+
+      - name: Check if data changed
+        id: diff
+        run: |
+          git diff --quiet src/data/programmes.json src/data/summary.json || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push if ILEP data changed
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/programmes.json src/data/summary.json
+          git commit -m "chore(data): auto-update ILEP data $(date +'%Y-%m-%d')"
+          git push
+
+      - name: No changes detected
+        if: steps.diff.outputs.changed != 'true'
+        run: echo "✅ ILEP data is already up to date."
