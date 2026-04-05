@@ -8,6 +8,7 @@ import programmesData from './data/programmes.json'
 import summaryData from './data/summary.json'
 import careerPathsData from './data/careerPaths.json'
 import providersData from './data/providers.json'
+import scholarshipsRaw from './data/scholarships.json'
 import type { Programme, Summary, CareerPath, Provider } from './types'
 import './index.css'
 
@@ -15,6 +16,18 @@ const programmes = programmesData as Programme[]
 const summary = summaryData as Summary
 const careerPaths = careerPathsData as CareerPath[]
 const providers = providersData as Provider[]
+
+interface Scholarship {
+  id: string; name: string; shortName: string; provider: string; type: string
+  emoji: string; value: number | null; valueFees: string; valueDisplay: string
+  totalEstimate: number | null; level: string[]; basis: string
+  nationality: string; brazilFriendly: boolean; awards: number | null
+  deadline: string; nextCycle: string; url: string; highlight: boolean; tips: string[]
+}
+interface PaymentTip { id: string; icon: string; title: string; body: string; priority: number }
+
+const scholarships = scholarshipsRaw.scholarships as Scholarship[]
+const paymentTips = scholarshipsRaw.paymentTips as PaymentTip[]
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
@@ -165,6 +178,186 @@ function ProviderRow({ pv, pathId, onOpen }: { pv: Provider; pathId: string; onO
   )
 }
 
+// ─── scholarships page ───────────────────────────────────────────────────────
+
+const BASIS_COLOR: Record<string, string> = {
+  automatic: 'bg-emerald-100 text-emerald-700',
+  merit:     'bg-blue-100 text-blue-700',
+}
+const BASIS_LABEL: Record<string, string> = {
+  automatic: '⚡ Automatic',
+  merit:     '🏆 Merit-based',
+}
+
+function ScholarshipCard({ s, expanded, onToggle }: {
+  s: Scholarship; expanded: boolean; onToggle: () => void
+}) {
+  return (
+    <div className={`bg-white rounded-2xl border overflow-hidden transition-all ${s.highlight ? 'border-green-300 shadow-sm' : 'border-gray-200'}`}>
+      <button className="w-full text-left p-4 flex items-start gap-3" onClick={onToggle}>
+        <span className="text-2xl flex-shrink-0">{s.emoji}</span>
+        <div className="flex-1 min-w-0">
+          {s.highlight && (
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full mb-1.5">⭐ Top Pick</span>
+          )}
+          <p className="font-bold text-gray-900 text-sm leading-snug">{s.name}</p>
+          <p className="text-xs text-gray-400 mt-0.5">{s.provider}</p>
+
+          {/* Value + basis chips */}
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            <span className="text-xs font-bold text-white bg-green-600 px-2.5 py-1 rounded-lg">{s.valueDisplay}</span>
+            <Chip label={BASIS_LABEL[s.basis] ?? s.basis} color={BASIS_COLOR[s.basis] ?? 'bg-gray-100 text-gray-600'} />
+            {s.nationality === 'brazilian' && <Chip label="🇧🇷 Brasileiros" color="bg-yellow-100 text-yellow-700" />}
+            {s.awards && <Chip label={`${s.awards} vagas/yr`} color="bg-gray-100 text-gray-500" />}
+          </div>
+
+          {/* Level + deadline */}
+          <div className="flex flex-wrap gap-3 mt-2 text-xs text-gray-400">
+            <span>📅 {s.deadline}</span>
+            {s.level.length && <span>🎓 {s.level.map(l => l.charAt(0).toUpperCase() + l.slice(1)).join(' · ')}</span>}
+          </div>
+        </div>
+        <div className="flex-shrink-0 mt-1 text-gray-400">
+          {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </div>
+      </button>
+
+      {expanded && (
+        <div className="px-4 pb-4 border-t border-gray-50 pt-3">
+          {/* Tips */}
+          {s.tips.length > 0 && (
+            <div className="mb-4">
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">💡 How to get it</p>
+              <ul className="space-y-1.5">
+                {s.tips.map((tip, i) => (
+                  <li key={i} className="flex items-start gap-2 text-xs text-gray-600">
+                    <span className="text-green-500 flex-shrink-0 mt-0.5">✓</span>
+                    <span>{tip}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Next cycle */}
+          {s.nextCycle && (
+            <div className="bg-amber-50 rounded-xl px-3 py-2 text-xs text-amber-800 mb-3">
+              <span className="font-bold">📅 Next deadline: </span>{s.nextCycle}
+            </div>
+          )}
+
+          <a href={s.url} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 text-white text-xs font-bold rounded-xl hover:bg-green-700 transition-colors">
+            Apply / Learn more <ExternalLink size={12} />
+          </a>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function ScholarshipsPage({ onBack }: { onBack: () => void }) {
+  const [filter, setFilter] = useState<'all' | 'automatic' | 'brazil'>('all')
+  const [expandedId, setExpandedId] = useState<string | null>(null)
+
+  const filtered = scholarships.filter(s => {
+    if (filter === 'automatic') return s.basis === 'automatic'
+    if (filter === 'brazil') return s.nationality === 'brazilian'
+    return true
+  })
+
+  const topTotal = scholarships
+    .filter(s => s.highlight)
+    .reduce((sum, s) => sum + (s.totalEstimate ?? 0), 0)
+
+  return (
+    <div className="space-y-5">
+      <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-green-600 font-medium">
+        <ArrowLeft size={15} /> Back
+      </button>
+
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl p-6 text-white">
+        <p className="text-4xl mb-3">💰</p>
+        <h2 className="text-2xl font-black mb-2">Scholarships & Funding</h2>
+        <p className="text-green-100 text-sm mb-4">
+          The fees are high — but there's real money available. Top picks can cover up to <strong>€{topTotal.toLocaleString()}+</strong> of your costs.
+        </p>
+        <div className="grid grid-cols-3 gap-2 text-center">
+          <div className="bg-white/20 rounded-xl p-2">
+            <p className="text-xl font-black">{scholarships.length}</p>
+            <p className="text-xs text-green-100">scholarships</p>
+          </div>
+          <div className="bg-white/20 rounded-xl p-2">
+            <p className="text-xl font-black">{scholarships.filter(s => s.basis === 'automatic').length}</p>
+            <p className="text-xs text-green-100">automatic</p>
+          </div>
+          <div className="bg-white/20 rounded-xl p-2">
+            <p className="text-xl font-black">{scholarships.filter(s => s.nationality === 'brazilian').length}</p>
+            <p className="text-xs text-green-100">🇧🇷 Brasil</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Filter pills */}
+      <div className="flex gap-2">
+        {([
+          { key: 'all', label: '🎓 All' },
+          { key: 'automatic', label: '⚡ Automatic' },
+          { key: 'brazil', label: '🇧🇷 Para Brasileiros' },
+        ] as const).map(f => (
+          <button key={f.key} onClick={() => setFilter(f.key)}
+            className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-colors ${filter === f.key ? 'bg-green-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-green-300'}`}>
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Scholarship cards */}
+      <div className="space-y-3">
+        {filtered.map(s => (
+          <ScholarshipCard key={s.id} s={s}
+            expanded={expandedId === s.id}
+            onToggle={() => setExpandedId(expandedId === s.id ? null : s.id)} />
+        ))}
+      </div>
+
+      {/* Payment tips */}
+      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div className="bg-gray-50 px-4 py-3 border-b border-gray-100">
+          <h3 className="font-black text-gray-900">💡 Money Tips for International Students</h3>
+          <p className="text-xs text-gray-400 mt-0.5">How to make the fees work — even without a scholarship</p>
+        </div>
+        <div className="divide-y divide-gray-50">
+          {paymentTips.map(tip => (
+            <div key={tip.id} className="px-4 py-4 flex items-start gap-3">
+              <span className="text-xl flex-shrink-0">{tip.icon}</span>
+              <div>
+                <p className="font-bold text-gray-900 text-sm mb-1">{tip.title}</p>
+                <p className="text-xs text-gray-500 leading-relaxed">{tip.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Stamp 2 work rights callout */}
+      <div className="bg-blue-50 border border-blue-100 rounded-2xl px-4 py-4">
+        <p className="font-bold text-blue-900 text-sm mb-2">💼 Stamp 2 Work Rights</p>
+        <p className="text-xs text-blue-800 leading-relaxed">
+          While studying you can work <strong>20 hrs/week during term</strong> and <strong>40 hrs/week during holidays</strong> (June–Sept + Dec–Jan).
+          At Ireland's minimum wage of €13.50/hr that's approximately <strong>€1,080/month</strong> during term and <strong>€2,160/month</strong> during holidays.
+          Over a full academic year, this can contribute <strong>€8,000–€12,000</strong> toward your fees and living costs.
+        </p>
+      </div>
+
+      <p className="text-xs text-gray-300 text-center pb-2">
+        Scholarship data verified from official university websites · {scholarshipsRaw.lastUpdated} · Always confirm deadlines directly with each institution
+      </p>
+    </div>
+  )
+}
+
 // ─── provider full detail ──────────────────────────────────────────────────────
 
 function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
@@ -269,6 +462,39 @@ function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
         <p className="text-xs font-bold text-green-800 uppercase tracking-wide mb-3">Your journey from {pv.shortName}</p>
         <Pathway />
       </div>
+
+      {/* Scholarships teaser */}
+      {(() => {
+        const pvScholarships = scholarships.filter(s =>
+          s.provider.toLowerCase().includes(pv.shortName.toLowerCase()) ||
+          s.provider.toLowerCase().includes(pv.name.toLowerCase().split(' ').slice(0, 2).join(' '))
+        )
+        const highlighted = pvScholarships.length > 0 ? pvScholarships : scholarships.filter(s => s.highlight).slice(0, 2)
+        return (
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+            <p className="font-bold text-amber-900 text-sm mb-2 flex items-center gap-2">
+              💰 Scholarships available
+            </p>
+            <div className="space-y-2 mb-3">
+              {highlighted.slice(0, 2).map(s => (
+                <div key={s.id} className="flex items-center justify-between bg-white rounded-xl px-3 py-2">
+                  <div>
+                    <p className="text-xs font-bold text-gray-900">{s.shortName}</p>
+                    <p className="text-xs text-gray-400">{s.valueDisplay}</p>
+                  </div>
+                  <Chip label={BASIS_LABEL[s.basis] ?? s.basis} color={BASIS_COLOR[s.basis] ?? 'bg-gray-100 text-gray-600'} />
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={onBack}
+              className="text-xs font-bold text-amber-700 underline"
+            >
+              View all scholarships →
+            </button>
+          </div>
+        )
+      })()}
 
       {/* ILEP courses */}
       {ilepCourses.length > 0 && (
@@ -588,30 +814,26 @@ export default function App() {
   const [selectedPath, setSelectedPath] = useState<CareerPath | null>(null)
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null)
   const [showAllCourses, setShowAllCourses] = useState(false)
+  const [showScholarships, setShowScholarships] = useState(false)
 
-  // Scroll to top on navigation
+  function scroll() { window.scrollTo({ top: 0, behavior: 'smooth' }) }
+
   function goToPath(path: CareerPath) {
-    setSelectedPath(path)
-    setSelectedProvider(null)
-    setShowAllCourses(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setSelectedPath(path); setSelectedProvider(null)
+    setShowAllCourses(false); setShowScholarships(false); scroll()
   }
-  function goToProvider(pv: Provider) {
-    setSelectedProvider(pv)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  function goToProvider(pv: Provider) { setSelectedProvider(pv); scroll() }
   function goHome() {
-    setSelectedPath(null)
-    setSelectedProvider(null)
-    setShowAllCourses(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setSelectedPath(null); setSelectedProvider(null)
+    setShowAllCourses(false); setShowScholarships(false); scroll()
   }
-  function goBackFromProvider() {
-    setSelectedProvider(null)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+  function goBackFromProvider() { setSelectedProvider(null); scroll() }
+  function goToScholarships() {
+    setShowScholarships(true); setSelectedPath(null)
+    setSelectedProvider(null); setShowAllCourses(false); scroll()
   }
 
-  const inDeep = selectedPath || selectedProvider || showAllCourses
+  const inDeep = selectedPath || selectedProvider || showAllCourses || showScholarships
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -629,10 +851,14 @@ export default function App() {
                 <ArrowLeft size={13} /> Home
               </button>
             )}
+            <button onClick={goToScholarships}
+              className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${showScholarships ? 'bg-green-600 text-white' : 'bg-amber-100 text-amber-700 hover:bg-amber-200'}`}>
+              💰 Bolsas
+            </button>
             <button
-              onClick={() => { setShowAllCourses(true); setSelectedPath(null); setSelectedProvider(null) }}
+              onClick={() => { setShowAllCourses(true); setSelectedPath(null); setSelectedProvider(null); setShowScholarships(false) }}
               className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${showAllCourses ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-              All ILEP
+              ILEP
             </button>
           </div>
         </div>
@@ -682,7 +908,25 @@ export default function App() {
 
             {/* Quick links */}
             <div className="grid grid-cols-2 gap-3 mt-6">
-              <button onClick={() => { setShowAllCourses(true) }}
+              {/* Scholarships — highlighted CTA */}
+              <button onClick={goToScholarships}
+                className="bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-300 rounded-2xl p-4 text-left hover:border-amber-400 hover:shadow-sm transition-all col-span-2">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-2xl">💰</span>
+                      <span className="text-xs font-bold text-amber-700 bg-amber-200 px-2 py-0.5 rounded-full">NEW</span>
+                    </div>
+                    <p className="font-black text-gray-900 text-base">Scholarships & Funding</p>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      {scholarships.length} scholarships · {scholarships.filter(s => s.basis === 'automatic').length} automatic · 🇧🇷 {scholarships.filter(s => s.nationality === 'brazilian').length} para brasileiros
+                    </p>
+                  </div>
+                  <ArrowRight size={20} className="text-amber-500 flex-shrink-0" />
+                </div>
+              </button>
+
+              <button onClick={() => { setShowAllCourses(true); setShowScholarships(false) }}
                 className="bg-white rounded-2xl border border-gray-200 p-4 text-left hover:border-green-300 transition-all">
                 <span className="text-2xl block mb-2">📋</span>
                 <p className="font-bold text-gray-900 text-sm">All ILEP Courses</p>
@@ -708,8 +952,13 @@ export default function App() {
           <ProviderDetail pv={selectedProvider} onBack={goBackFromProvider} />
         )}
 
+        {/* ── SCHOLARSHIPS ── */}
+        {showScholarships && !selectedPath && !selectedProvider && (
+          <ScholarshipsPage onBack={goHome} />
+        )}
+
         {/* ── ALL COURSES ── */}
-        {showAllCourses && !selectedPath && !selectedProvider && (
+        {showAllCourses && !selectedPath && !selectedProvider && !showScholarships && (
           <>
             <div className="mb-5">
               <h2 className="text-xl font-black text-gray-900">All ILEP Courses</h2>
