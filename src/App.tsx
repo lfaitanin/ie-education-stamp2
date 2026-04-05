@@ -1,4 +1,6 @@
 import { useState, useMemo, useRef } from 'react'
+import { useLang } from './i18n/LangContext'
+import type { Language } from './i18n/translations'
 import { Analytics } from '@vercel/analytics/react'
 import {
   Search, ExternalLink, MapPin, Clock, ChevronDown, ChevronUp,
@@ -61,16 +63,63 @@ function FeeTag({ amount }: { amount: number }) {
   )
 }
 
+// ─── language dropdown ────────────────────────────────────────────────────────
+
+const LANG_OPTIONS: { value: Language; flag: string; label: string }[] = [
+  { value: 'en', flag: '🇮🇪', label: 'EN' },
+  { value: 'pt', flag: '🇧🇷', label: 'PT' },
+  { value: 'es', flag: '🇪🇸', label: 'ES' },
+]
+
+function LangDropdown() {
+  const { lang, setLang } = useLang()
+  const [open, setOpen] = useState(false)
+  const current = LANG_OPTIONS.find(o => o.value === lang)!
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+      >
+        <span>{current.flag}</span>
+        <span>{current.label}</span>
+        <svg className="w-3 h-3 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" /></svg>
+      </button>
+
+      {open && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
+          <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50 min-w-[90px]">
+            {LANG_OPTIONS.map(o => (
+              <button
+                key={o.value}
+                onClick={() => { setLang(o.value); setOpen(false) }}
+                className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold hover:bg-gray-50 transition-colors ${lang === o.value ? 'text-green-700 bg-green-50' : 'text-gray-700'}`}
+              >
+                <span>{o.flag}</span>
+                <span>{o.label}</span>
+                {lang === o.value && <span className="ml-auto text-green-500">✓</span>}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
 // ─── pathway stepper (hero visual) ───────────────────────────────────────────
 
 function Pathway() {
+  const { t } = useLang()
   const steps = [
-    { emoji: '📚', label: 'Pick a course' },
-    { emoji: '✈️', label: 'Stamp 2 visa' },
+    { emoji: '📚', label: t.pathwayStep1 },
+    { emoji: '✈️', label: t.pathwayStep2 },
     { emoji: '🎓', label: 'Graduate' },
-    { emoji: '💼', label: 'Stamp 1G' },
-    { emoji: '🏢', label: 'Sponsor' },
-    { emoji: '🍀', label: 'Stamp 4' },
+    { emoji: '💼', label: t.pathwayStep3 },
+    { emoji: '🏢', label: t.pathwayStep4 },
+    { emoji: '🍀', label: t.pathwayStep5 },
   ]
   return (
     <div className="flex items-center gap-1 flex-wrap justify-center">
@@ -90,6 +139,7 @@ function Pathway() {
 // ─── career path selector grid ────────────────────────────────────────────────
 
 function PathGrid({ onSelect }: { onSelect: (p: CareerPath) => void }) {
+  const { t } = useLang()
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
       {careerPaths.map(path => {
@@ -105,13 +155,13 @@ function PathGrid({ onSelect }: { onSelect: (p: CareerPath) => void }) {
             <p className="font-bold text-gray-900 text-sm leading-snug mb-1">{path.label}</p>
             {path.permitsPerYear && (
               <p className="text-xs text-green-600 font-semibold mb-2">
-                {path.permitsPerYear.toLocaleString()} permits/yr
+                {path.permitsPerYear.toLocaleString()} {t.pathPermitsPerYear}
               </p>
             )}
             <div className="flex gap-2 text-xs text-gray-400">
-              <span>{provCount} unis</span>
+              <span>{provCount} {t.pathUnis}</span>
               <span>·</span>
-              <span>{courseCount} courses</span>
+              <span>{courseCount} {t.pathCourses}</span>
             </div>
           </button>
         )
@@ -123,6 +173,7 @@ function PathGrid({ onSelect }: { onSelect: (p: CareerPath) => void }) {
 // ─── provider card (in path results) ─────────────────────────────────────────
 
 function ProviderRow({ pv, pathId, onOpen }: { pv: Provider; pathId: string; onOpen: () => void }) {
+  const { t } = useLang()
   const relevant = pv.topCourses.filter(c => c.sector === pathId)
   const minFee = relevant.length ? Math.min(...relevant.map(c => c.fee)) : pv.feesUG.min
 
@@ -148,7 +199,7 @@ function ProviderRow({ pv, pathId, onOpen }: { pv: Provider; pathId: string; onO
       {/* Key info chips */}
       <div className="flex gap-2 flex-wrap mb-3">
         <span className="text-xs bg-green-50 text-green-700 font-semibold px-2.5 py-1 rounded-lg">
-          From €{minFee.toLocaleString()}/yr
+          {t.from} €{minFee.toLocaleString()}{t.perYear}
         </span>
         <span className="text-xs bg-amber-50 text-amber-700 font-semibold px-2.5 py-1 rounded-lg">
           IELTS {pv.ielts.split(' ')[0]}
@@ -184,21 +235,19 @@ const BASIS_COLOR: Record<string, string> = {
   automatic: 'bg-emerald-100 text-emerald-700',
   merit:     'bg-blue-100 text-blue-700',
 }
-const BASIS_LABEL: Record<string, string> = {
-  automatic: '⚡ Automatic',
-  merit:     '🏆 Merit-based',
-}
 
 function ScholarshipCard({ s, expanded, onToggle }: {
   s: Scholarship; expanded: boolean; onToggle: () => void
 }) {
+  const { t } = useLang()
+  const basisLabel = s.basis === 'automatic' ? t.basisAutomatic : s.basis === 'merit' ? t.basisMerit : s.basis
   return (
     <div className={`bg-white rounded-2xl border overflow-hidden transition-all ${s.highlight ? 'border-green-300 shadow-sm' : 'border-gray-200'}`}>
       <button className="w-full text-left p-4 flex items-start gap-3" onClick={onToggle}>
         <span className="text-2xl flex-shrink-0">{s.emoji}</span>
         <div className="flex-1 min-w-0">
           {s.highlight && (
-            <span className="inline-flex items-center gap-1 text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full mb-1.5">⭐ Top Pick</span>
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full mb-1.5">{t.topPick}</span>
           )}
           <p className="font-bold text-gray-900 text-sm leading-snug">{s.name}</p>
           <p className="text-xs text-gray-400 mt-0.5">{s.provider}</p>
@@ -206,7 +255,7 @@ function ScholarshipCard({ s, expanded, onToggle }: {
           {/* Value + basis chips */}
           <div className="flex flex-wrap gap-1.5 mt-2">
             <span className="text-xs font-bold text-white bg-green-600 px-2.5 py-1 rounded-lg">{s.valueDisplay}</span>
-            <Chip label={BASIS_LABEL[s.basis] ?? s.basis} color={BASIS_COLOR[s.basis] ?? 'bg-gray-100 text-gray-600'} />
+            <Chip label={basisLabel} color={BASIS_COLOR[s.basis] ?? 'bg-gray-100 text-gray-600'} />
             {s.nationality === 'brazilian' && <Chip label="🇧🇷 Brasileiros" color="bg-yellow-100 text-yellow-700" />}
             {s.awards && <Chip label={`${s.awards} vagas/yr`} color="bg-gray-100 text-gray-500" />}
           </div>
@@ -227,7 +276,7 @@ function ScholarshipCard({ s, expanded, onToggle }: {
           {/* Tips */}
           {s.tips.length > 0 && (
             <div className="mb-4">
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">💡 How to get it</p>
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">{t.howToGetIt}</p>
               <ul className="space-y-1.5">
                 {s.tips.map((tip, i) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-gray-600">
@@ -242,13 +291,13 @@ function ScholarshipCard({ s, expanded, onToggle }: {
           {/* Next cycle */}
           {s.nextCycle && (
             <div className="bg-amber-50 rounded-xl px-3 py-2 text-xs text-amber-800 mb-3">
-              <span className="font-bold">📅 Next deadline: </span>{s.nextCycle}
+              <span className="font-bold">{t.nextDeadline} </span>{s.nextCycle}
             </div>
           )}
 
           <a href={s.url} target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-4 py-2 bg-green-600 text-white text-xs font-bold rounded-xl hover:bg-green-700 transition-colors">
-            Apply / Learn more <ExternalLink size={12} />
+            {t.applyLearnMore} <ExternalLink size={12} />
           </a>
         </div>
       )}
@@ -257,6 +306,7 @@ function ScholarshipCard({ s, expanded, onToggle }: {
 }
 
 function ScholarshipsPage({ onBack }: { onBack: () => void }) {
+  const { t } = useLang()
   const [filter, setFilter] = useState<'all' | 'automatic' | 'brazil'>('all')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
@@ -273,24 +323,24 @@ function ScholarshipsPage({ onBack }: { onBack: () => void }) {
   return (
     <div className="space-y-5">
       <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-green-600 font-medium">
-        <ArrowLeft size={15} /> Back
+        <ArrowLeft size={15} /> {t.back.replace('← ', '')}
       </button>
 
       {/* Hero */}
       <div className="bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl p-6 text-white">
         <p className="text-4xl mb-3">💰</p>
-        <h2 className="text-2xl font-black mb-2">Scholarships & Funding</h2>
+        <h2 className="text-2xl font-black mb-2">{t.scholarshipsTitle}</h2>
         <p className="text-green-100 text-sm mb-4">
-          The fees are high — but there's real money available. Top picks can cover up to <strong>€{topTotal.toLocaleString()}+</strong> of your costs.
+          {t.scholarshipsSubtitle} <strong>€{topTotal.toLocaleString()}+</strong> {t.scholarshipsOf}
         </p>
         <div className="grid grid-cols-3 gap-2 text-center">
           <div className="bg-white/20 rounded-xl p-2">
             <p className="text-xl font-black">{scholarships.length}</p>
-            <p className="text-xs text-green-100">scholarships</p>
+            <p className="text-xs text-green-100">{t.scholarships}</p>
           </div>
           <div className="bg-white/20 rounded-xl p-2">
             <p className="text-xl font-black">{scholarships.filter(s => s.basis === 'automatic').length}</p>
-            <p className="text-xs text-green-100">automatic</p>
+            <p className="text-xs text-green-100">{t.automatic}</p>
           </div>
           <div className="bg-white/20 rounded-xl p-2">
             <p className="text-xl font-black">{scholarships.filter(s => s.nationality === 'brazilian').length}</p>
@@ -302,10 +352,10 @@ function ScholarshipsPage({ onBack }: { onBack: () => void }) {
       {/* Filter pills */}
       <div className="flex gap-2">
         {([
-          { key: 'all', label: '🎓 All' },
-          { key: 'automatic', label: '⚡ Automatic' },
-          { key: 'brazil', label: '🇧🇷 Para Brasileiros' },
-        ] as const).map(f => (
+          { key: 'all' as const, label: t.filterAll },
+          { key: 'automatic' as const, label: t.filterAutomatic },
+          { key: 'brazil' as const, label: t.filterBrazil },
+        ]).map(f => (
           <button key={f.key} onClick={() => setFilter(f.key)}
             className={`px-3 py-1.5 rounded-xl text-sm font-semibold transition-colors ${filter === f.key ? 'bg-green-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-green-300'}`}>
             {f.label}
@@ -325,8 +375,8 @@ function ScholarshipsPage({ onBack }: { onBack: () => void }) {
       {/* Payment tips */}
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div className="bg-gray-50 px-4 py-3 border-b border-gray-100">
-          <h3 className="font-black text-gray-900">💡 Money Tips for International Students</h3>
-          <p className="text-xs text-gray-400 mt-0.5">How to make the fees work — even without a scholarship</p>
+          <h3 className="font-black text-gray-900">{t.moneyTipsTitle}</h3>
+          <p className="text-xs text-gray-400 mt-0.5">{t.moneyTipsSubtitle}</p>
         </div>
         <div className="divide-y divide-gray-50">
           {paymentTips.map(tip => (
@@ -343,16 +393,12 @@ function ScholarshipsPage({ onBack }: { onBack: () => void }) {
 
       {/* Stamp 2 work rights callout */}
       <div className="bg-blue-50 border border-blue-100 rounded-2xl px-4 py-4">
-        <p className="font-bold text-blue-900 text-sm mb-2">💼 Stamp 2 Work Rights</p>
-        <p className="text-xs text-blue-800 leading-relaxed">
-          While studying you can work <strong>20 hrs/week during term</strong> and <strong>40 hrs/week during holidays</strong> (June–Sept + Dec–Jan).
-          At Ireland's minimum wage of €13.50/hr that's approximately <strong>€1,080/month</strong> during term and <strong>€2,160/month</strong> during holidays.
-          Over a full academic year, this can contribute <strong>€8,000–€12,000</strong> toward your fees and living costs.
-        </p>
+        <p className="font-bold text-blue-900 text-sm mb-2">{t.stamp2WorkTitle}</p>
+        <p className="text-xs text-blue-800 leading-relaxed">{t.stamp2WorkBody}</p>
       </div>
 
       <p className="text-xs text-gray-300 text-center pb-2">
-        Scholarship data verified from official university websites · {scholarshipsRaw.lastUpdated} · Always confirm deadlines directly with each institution
+        {t.scholarshipsDisclaimer} · {scholarshipsRaw.lastUpdated}
       </p>
     </div>
   )
@@ -361,12 +407,13 @@ function ScholarshipsPage({ onBack }: { onBack: () => void }) {
 // ─── provider full detail ──────────────────────────────────────────────────────
 
 function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
+  const { t } = useLang()
   const ilepCourses = programmes.filter(p => p.provider === pv.name)
 
   return (
     <div className="space-y-4">
       <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-green-600 font-medium">
-        <ArrowLeft size={15} /> Back
+        <ArrowLeft size={15} /> {t.back.replace('← ', '')}
       </button>
 
       {/* Hero card */}
@@ -418,11 +465,11 @@ function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
           <div className="flex gap-2 flex-wrap">
             <a href={pv.website} target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-xl hover:bg-green-700 transition-colors">
-              Apply / Visit <ExternalLink size={13} />
+              {t.applyVisit} <ExternalLink size={13} />
             </a>
             <a href={pv.feesUrl} target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-4 py-2.5 border-2 border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:border-green-300 transition-colors">
-              Full Fee Schedule <ExternalLink size={13} />
+              {t.fullFeeSchedule} <ExternalLink size={13} />
             </a>
           </div>
         </div>
@@ -430,7 +477,7 @@ function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
 
       {/* All courses at this uni */}
       <div className="bg-white rounded-2xl border border-gray-100 p-5">
-        <h3 className="font-bold text-gray-900 mb-4">📋 Available Courses & Fees</h3>
+        <h3 className="font-bold text-gray-900 mb-4">{t.availableCoursesAndFees}</h3>
         <div className="divide-y divide-gray-50">
           {pv.topCourses.map((c, i) => {
             const path = careerPaths.find(cp => cp.id === c.sector)
@@ -459,7 +506,7 @@ function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
 
       {/* Journey */}
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100 rounded-2xl p-4">
-        <p className="text-xs font-bold text-green-800 uppercase tracking-wide mb-3">Your journey from {pv.shortName}</p>
+        <p className="text-xs font-bold text-green-800 uppercase tracking-wide mb-3">{t.journeyFrom} {pv.shortName}</p>
         <Pathway />
       </div>
 
@@ -473,7 +520,7 @@ function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
         return (
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
             <p className="font-bold text-amber-900 text-sm mb-2 flex items-center gap-2">
-              💰 Scholarships available
+              💰 {t.scholarshipsAvailable}
             </p>
             <div className="space-y-2 mb-3">
               {highlighted.slice(0, 2).map(s => (
@@ -482,7 +529,7 @@ function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
                     <p className="text-xs font-bold text-gray-900">{s.shortName}</p>
                     <p className="text-xs text-gray-400">{s.valueDisplay}</p>
                   </div>
-                  <Chip label={BASIS_LABEL[s.basis] ?? s.basis} color={BASIS_COLOR[s.basis] ?? 'bg-gray-100 text-gray-600'} />
+                  <Chip label={s.basis === 'automatic' ? t.basisAutomatic : s.basis === 'merit' ? t.basisMerit : s.basis} color={BASIS_COLOR[s.basis] ?? 'bg-gray-100 text-gray-600'} />
                 </div>
               ))}
             </div>
@@ -490,7 +537,7 @@ function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
               onClick={onBack}
               className="text-xs font-bold text-amber-700 underline"
             >
-              View all scholarships →
+              {t.viewAllScholarships}
             </button>
           </div>
         )
@@ -499,7 +546,7 @@ function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
       {/* ILEP courses */}
       {ilepCourses.length > 0 && (
         <div className="bg-white rounded-2xl border border-gray-100 p-5">
-          <h3 className="font-bold text-gray-900 mb-3">📜 ILEP Approved Courses ({ilepCourses.length})</h3>
+          <h3 className="font-bold text-gray-900 mb-3">📜 {t.ilepApprovedCoursesAt} ({ilepCourses.length})</h3>
           <div className="space-y-2">
             {ilepCourses.slice(0, 8).map(p => (
               <div key={p.id} className="flex items-center gap-2 py-2 border-b border-gray-50 last:border-0">
@@ -510,7 +557,7 @@ function ProviderDetail({ pv, onBack }: { pv: Provider; onBack: () => void }) {
               </div>
             ))}
             {ilepCourses.length > 8 && (
-              <p className="text-xs text-gray-400 pt-1">+{ilepCourses.length - 8} more ILEP courses at this provider</p>
+              <p className="text-xs text-gray-400 pt-1">+{ilepCourses.length - 8} {t.ilepMoreCourses}</p>
             )}
           </div>
         </div>
@@ -528,6 +575,7 @@ function PathResults({
   onBack: () => void
   onOpenProvider: (pv: Provider) => void
 }) {
+  const { t } = useLang()
   const pathProviders = providers.filter(pv => pv.sectors.includes(path.id))
   const courses = programmes.filter(p => matchPath(p, path))
   const [search, setSearch] = useState('')
@@ -550,7 +598,7 @@ function PathResults({
       {/* Back + title */}
       <div>
         <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-green-600 font-medium mb-3">
-          <ArrowLeft size={15} /> All career paths
+          <ArrowLeft size={15} /> {t.backToCareerPaths.replace('← ', '')}
         </button>
         <div className="flex items-center gap-3">
           <span className="text-4xl">{path.icon}</span>
@@ -576,7 +624,7 @@ function PathResults({
       {path.topSponsors.length > 0 && (
         <div className="bg-white rounded-2xl border border-gray-100 p-4">
           <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-1.5">
-            <Building2 size={13} /> Who's hiring? Top work permit sponsors
+            <Building2 size={13} /> {t.whoIsHiring}
           </p>
           <div className="flex flex-wrap gap-2">
             {path.topSponsors.map(s => (
@@ -595,8 +643,8 @@ function PathResults({
       {pathProviders.length > 0 && (
         <div>
           <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-            🏛️ Where to study
-            <span className="text-xs font-normal text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{pathProviders.length} institutions</span>
+            {t.whereToStudy}
+            <span className="text-xs font-normal text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{pathProviders.length} {t.institutions}</span>
           </h3>
           <div className="space-y-3">
             {pathProviders.map(pv => (
@@ -609,19 +657,19 @@ function PathResults({
       {/* ILEP courses */}
       <div ref={coursesRef}>
         <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-          📋 ILEP Approved Courses
-          <span className="text-xs font-normal text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{courses.length} courses</span>
+          {t.ilepApprovedCourses}
+          <span className="text-xs font-normal text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{courses.length} {t.pathCourses}</span>
         </h3>
 
         {courses.length === 0 ? (
           <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center text-gray-400 text-sm">
-            No ILEP courses found for this career path yet.
+            {t.noIlepCourses}
           </div>
         ) : (
           <>
             <div className="relative mb-3">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="text" placeholder="Filter courses..." value={search}
+              <input type="text" placeholder={t.filterCourses} value={search}
                 onChange={e => { setSearch(e.target.value); setPage(1) }}
                 className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-green-400 bg-white" />
             </div>
@@ -666,11 +714,11 @@ function PathResults({
               <div className="flex justify-center items-center gap-3 mt-4">
                 <button onClick={() => { setPage(p => Math.max(1, p - 1)); coursesRef.current?.scrollIntoView() }}
                   disabled={page === 1}
-                  className="px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 disabled:opacity-30 hover:bg-gray-50">← Prev</button>
+                  className="px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 disabled:opacity-30 hover:bg-gray-50">{t.prev}</button>
                 <span className="text-sm text-gray-500">{page} / {totalPages}</span>
                 <button onClick={() => { setPage(p => Math.min(totalPages, p + 1)); coursesRef.current?.scrollIntoView() }}
                   disabled={page === totalPages}
-                  className="px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 disabled:opacity-30 hover:bg-gray-50">Next →</button>
+                  className="px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 disabled:opacity-30 hover:bg-gray-50">{t.next}</button>
               </div>
             )}
           </>
@@ -683,6 +731,7 @@ function PathResults({
 // ─── all courses search view ──────────────────────────────────────────────────
 
 function AllCourses() {
+  const { t } = useLang()
   const [search, setSearch] = useState('')
   const [filterType, setFilterType] = useState('All')
   const [filterCounty, setFilterCounty] = useState('All')
@@ -714,20 +763,20 @@ function AllCourses() {
       <div className="bg-white rounded-2xl border border-gray-200 p-4 mb-4">
         <div className="relative mb-3">
           <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input type="text" placeholder="Search any course or college..."
+          <input type="text" placeholder={t.searchPlaceholder}
             value={search} onChange={e => { setSearch(e.target.value); setPage(1) }}
             className="w-full pl-10 pr-3 py-3 text-sm border border-gray-200 rounded-xl focus:outline-none focus:border-green-400 bg-white" />
         </div>
         <div className="flex gap-2 flex-wrap">
           {[
-            { val: filterType, set: setFilterType, opts: allTypes, def: 'All Types' },
-            { val: filterCounty, set: setFilterCounty, opts: allCounties, def: 'All Counties' },
-            { val: filterNfq, set: (v: string) => setFilterNfq(v), opts: ['All', '9', '8', '7', '6', 'N/A'], def: 'All NFQ' },
+            { val: filterType, set: setFilterType, opts: allTypes, def: t.allTypes },
+            { val: filterCounty, set: setFilterCounty, opts: allCounties, def: t.allCounties },
+            { val: filterNfq, set: (v: string) => setFilterNfq(v), opts: ['All', '9', '8', '7', '6', 'N/A'], def: t.allNfq },
           ].map((f, i) => (
             <select key={i} value={f.val}
               onChange={e => { f.set(e.target.value); setPage(1) }}
               className="text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:border-green-400 bg-white font-medium text-gray-700">
-              {f.opts.map(o => <option key={o} value={o}>{o === 'All' ? f.def : o === 'N/A' ? 'No NFQ' : /^\d$/.test(o) ? `NFQ ${o}` : o}</option>)}
+              {f.opts.map(o => <option key={o} value={o}>{o === 'All' ? f.def : o === 'N/A' ? t.noNfq : /^\d$/.test(o) ? `NFQ ${o}` : o}</option>)}
             </select>
           ))}
           {hasFilters && (
@@ -740,14 +789,14 @@ function AllCourses() {
       </div>
 
       <div className="flex items-center justify-between mb-3 px-1">
-        <p className="text-sm font-medium text-gray-600">{filtered.length.toLocaleString()} programmes</p>
-        {totalPages > 1 && <p className="text-xs text-gray-400">Page {page}/{totalPages}</p>}
+        <p className="text-sm font-medium text-gray-600">{filtered.length.toLocaleString()} {t.programmesFound}</p>
+        {totalPages > 1 && <p className="text-xs text-gray-400">{t.page} {page}/{totalPages}</p>}
       </div>
 
       <div className="space-y-2 mb-4">
         {paged.length === 0 ? (
           <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
-            <p className="text-gray-400 text-sm">No results. Try different filters.</p>
+            <p className="text-gray-400 text-sm">{t.noResults}</p>
           </div>
         ) : paged.map(p => (
           <div key={p.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
@@ -798,10 +847,10 @@ function AllCourses() {
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-3">
           <button onClick={() => { setPage(p => Math.max(1, p - 1)); topRef.current?.scrollIntoView() }}
-            disabled={page === 1} className="px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 disabled:opacity-30 hover:bg-gray-50">← Prev</button>
+            disabled={page === 1} className="px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 disabled:opacity-30 hover:bg-gray-50">{t.prev}</button>
           <span className="text-sm text-gray-500">{page} / {totalPages}</span>
           <button onClick={() => { setPage(p => Math.min(totalPages, p + 1)); topRef.current?.scrollIntoView() }}
-            disabled={page === totalPages} className="px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 disabled:opacity-30 hover:bg-gray-50">Next →</button>
+            disabled={page === totalPages} className="px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 disabled:opacity-30 hover:bg-gray-50">{t.next}</button>
         </div>
       )}
     </div>
@@ -811,6 +860,7 @@ function AllCourses() {
 // ─── root app ─────────────────────────────────────────────────────────────────
 
 export default function App() {
+  const { t } = useLang()
   const [selectedPath, setSelectedPath] = useState<CareerPath | null>(null)
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null)
   const [showAllCourses, setShowAllCourses] = useState(false)
@@ -842,24 +892,25 @@ export default function App() {
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
           <button onClick={goHome} className="flex items-center gap-2 font-black text-gray-900 text-base">
-            🎓 <span>IE Education</span>
+            🎓 <span>{t.siteName}</span>
           </button>
           <div className="flex items-center gap-2">
             {inDeep && (
               <button onClick={goHome}
                 className="text-xs text-gray-500 hover:text-green-600 font-medium flex items-center gap-1">
-                <ArrowLeft size={13} /> Home
+                <ArrowLeft size={13} /> {t.headerHome}
               </button>
             )}
             <button onClick={goToScholarships}
               className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${showScholarships ? 'bg-green-600 text-white' : 'bg-amber-100 text-amber-700 hover:bg-amber-200'}`}>
-              💰 Bolsas
+              💰 {t.headerScholarships}
             </button>
             <button
               onClick={() => { setShowAllCourses(true); setSelectedPath(null); setSelectedProvider(null); setShowScholarships(false) }}
               className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${showAllCourses ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-              ILEP
+              {t.headerIlep}
             </button>
+            <LangDropdown />
           </div>
         </div>
       </header>
@@ -872,14 +923,14 @@ export default function App() {
             {/* Hero */}
             <div className="text-center mb-8">
               <div className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 text-xs font-bold px-3 py-1.5 rounded-full mb-4">
-                🍀 {summary.totalProgrammes.toLocaleString()} Stamp 2 approved courses
+                🍀 {summary.totalProgrammes.toLocaleString()} {t.heroBadge}
               </div>
               <h1 className="text-3xl md:text-4xl font-black text-gray-900 mb-3 leading-tight">
-                Study in Ireland.<br />
-                <span className="text-green-600">Land a sponsor.</span>
+                {t.heroTitle1}<br />
+                <span className="text-green-600">{t.heroTitle2}</span>
               </h1>
               <p className="text-gray-500 text-base mb-6 max-w-sm mx-auto">
-                Find courses, compare universities, fees & requirements — all mapped to the companies that hire.
+                {t.heroSubtitle}
               </p>
               <Pathway />
             </div>
@@ -888,11 +939,10 @@ export default function App() {
             <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 flex gap-3 mb-7 text-left">
               <span className="text-xl flex-shrink-0">⚠️</span>
               <div>
-                <p className="text-xs font-bold text-amber-900 mb-0.5">ILEP is transitioning to TrustEd Ireland (2026)</p>
+                <p className="text-xs font-bold text-amber-900 mb-0.5">{t.noticeTitle}</p>
                 <p className="text-xs text-amber-800">
-                  Public universities (TCD, UCD…) accept Stamp 2 students independently.
-                  Private colleges & language schools use the ILEP list (last updated Feb 2026).{' '}
-                  <a href="https://www.qqi.ie/what-we-do/quality-assurance-of-education-and-training/what-is-trusted-ireland/" target="_blank" rel="noopener noreferrer" className="underline font-semibold">TrustEd Ireland →</a>
+                  {t.noticeBody}{' '}
+                  <a href="https://www.qqi.ie/what-we-do/quality-assurance-of-education-and-training/what-is-trusted-ireland/" target="_blank" rel="noopener noreferrer" className="underline font-semibold">{t.noticeLinkLabel}</a>
                 </p>
               </div>
             </div>
@@ -900,9 +950,9 @@ export default function App() {
             {/* THE main CTA */}
             <div className="mb-3">
               <p className="text-lg font-black text-gray-900 mb-1">
-                What do you want to do in Ireland? 👇
+                {t.pathsTitle}
               </p>
-              <p className="text-sm text-gray-400 mb-4">Tap a career to see universities, fees and top employers</p>
+              <p className="text-sm text-gray-400 mb-4">{t.pathsSubtitle}</p>
               <PathGrid onSelect={goToPath} />
             </div>
 
@@ -917,9 +967,9 @@ export default function App() {
                       <span className="text-2xl">💰</span>
                       <span className="text-xs font-bold text-amber-700 bg-amber-200 px-2 py-0.5 rounded-full">NEW</span>
                     </div>
-                    <p className="font-black text-gray-900 text-base">Scholarships & Funding</p>
+                    <p className="font-black text-gray-900 text-base">{t.quickScholarshipsTitle}</p>
                     <p className="text-xs text-gray-500 mt-0.5">
-                      {scholarships.length} scholarships · {scholarships.filter(s => s.basis === 'automatic').length} automatic · 🇧🇷 {scholarships.filter(s => s.nationality === 'brazilian').length} para brasileiros
+                      {scholarships.length} {t.scholarships} · {scholarships.filter(s => s.basis === 'automatic').length} {t.automatic} · {scholarships.filter(s => s.nationality === 'brazilian').length} {t.filterBrazil}
                     </p>
                   </div>
                   <ArrowRight size={20} className="text-amber-500 flex-shrink-0" />
@@ -929,14 +979,14 @@ export default function App() {
               <button onClick={() => { setShowAllCourses(true); setShowScholarships(false) }}
                 className="bg-white rounded-2xl border border-gray-200 p-4 text-left hover:border-green-300 transition-all">
                 <span className="text-2xl block mb-2">📋</span>
-                <p className="font-bold text-gray-900 text-sm">All ILEP Courses</p>
-                <p className="text-xs text-gray-400 mt-0.5">Search all {summary.totalProgrammes.toLocaleString()} programmes</p>
+                <p className="font-bold text-gray-900 text-sm">{t.quickCoursesTitle}</p>
+                <p className="text-xs text-gray-400 mt-0.5">Search all {summary.totalProgrammes.toLocaleString()} {t.quickCoursesSubtitle}</p>
               </button>
               <a href="https://ie-work-permits.com" target="_blank" rel="noopener noreferrer"
                 className="bg-white rounded-2xl border border-gray-200 p-4 text-left hover:border-green-300 transition-all">
                 <span className="text-2xl block mb-2">🏢</span>
-                <p className="font-bold text-gray-900 text-sm">Sponsor Companies</p>
-                <p className="text-xs text-gray-400 mt-0.5">18,000+ companies that hire</p>
+                <p className="font-bold text-gray-900 text-sm">{t.quickSponsorsTitle}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{t.quickSponsorsSubtitle}</p>
               </a>
             </div>
           </>
@@ -961,8 +1011,8 @@ export default function App() {
         {showAllCourses && !selectedPath && !selectedProvider && !showScholarships && (
           <>
             <div className="mb-5">
-              <h2 className="text-xl font-black text-gray-900">All ILEP Courses</h2>
-              <p className="text-sm text-gray-400">{summary.totalProgrammes.toLocaleString()} programmes · {summary.totalProviders} providers</p>
+              <h2 className="text-xl font-black text-gray-900">{t.allIlepTitle}</h2>
+              <p className="text-sm text-gray-400">{summary.totalProgrammes.toLocaleString()} {t.programmesFound} · {summary.totalProviders} {t.allIlepSubtitle}</p>
             </div>
             <AllCourses />
           </>
