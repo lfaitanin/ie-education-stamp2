@@ -13,18 +13,68 @@
     "ilep": false,
     "trustedIreland": true,
     "description": "Ireland's oldest and most prestigious university, founded 1592. Located in the heart of Dublin city centre.",
-    "feesUG": { "min": 20552, "max": 31068, "note": "Per year, non-EU/non-EEA" },
-    "feePG": { "min": 11000, "max": 35000, "note": "Per year, varies by programme" },
+    "feesUG": {
+      "min": 20552,
+      "max": 31068,
+      "note": "Per year, non-EU/non-EEA"
+    },
+    "feePG": {
+      "min": 11000,
+      "max": 35000,
+      "note": "Per year, varies by programme"
+    },
     "ielts": "6.5–7.0 depending on programme",
     "topCourses": [
-      { "title": "Computer Science", "nfq": "8", "duration": "4 years", "fee": 26220, "sector": "tech" },
-      { "title": "Business & Economics (BESS)", "nfq": "8", "duration": "4 years", "fee": 22016, "sector": "finance" },
-      { "title": "Nursing", "nfq": "8", "duration": "4 years", "fee": 23688, "sector": "healthcare" },
-      { "title": "Engineering (Civil/Mech/Elec)", "nfq": "8", "duration": "4 years", "fee": 26220, "sector": "engineering" },
-      { "title": "MSc Computer Science", "nfq": "9", "duration": "1 year", "fee": 28560, "sector": "tech" },
-      { "title": "MSc Finance", "nfq": "9", "duration": "1 year", "fee": 29100, "sector": "finance" }
+      {
+        "title": "Computer Science",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 26220,
+        "sector": "tech"
+      },
+      {
+        "title": "Business & Economics (BESS)",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 22016,
+        "sector": "finance"
+      },
+      {
+        "title": "Nursing",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 23688,
+        "sector": "healthcare"
+      },
+      {
+        "title": "Engineering (Civil/Mech/Elec)",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 26220,
+        "sector": "engineering"
+      },
+      {
+        "title": "MSc Computer Science",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 28560,
+        "sector": "tech"
+      },
+      {
+        "title": "MSc Finance",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 29100,
+        "sector": "finance"
+      }
     ],
-    "sectors": ["tech", "finance", "healthcare", "engineering", "business"]
+    "sectors": [
+      "tech",
+      "finance",
+      "healthcare",
+      "engineering",
+      "business"
+    ]
   },
   {
     "slug": "ucd",
@@ -40,18 +90,68 @@
     "ilep": false,
     "trustedIreland": true,
     "description": "Ireland's largest university with over 38,000 students. Ireland's global university with a strong research profile.",
-    "feesUG": { "min": 20000, "max": 30000, "note": "Per year, non-EU" },
-    "feePG": { "min": 16000, "max": 38000, "note": "Per year, varies by programme" },
+    "feesUG": {
+      "min": 20000,
+      "max": 30000,
+      "note": "Per year, non-EU"
+    },
+    "feePG": {
+      "min": 16000,
+      "max": 38000,
+      "note": "Per year, varies by programme"
+    },
     "ielts": "6.5 minimum, 7.0 for some programmes",
     "topCourses": [
-      { "title": "BSc Computer Science", "nfq": "8", "duration": "4 years", "fee": 26000, "sector": "tech" },
-      { "title": "BSc Business", "nfq": "8", "duration": "4 years", "fee": 22000, "sector": "business" },
-      { "title": "BSc Nursing", "nfq": "8", "duration": "4 years", "fee": 21000, "sector": "healthcare" },
-      { "title": "MSc Data Analytics", "nfq": "9", "duration": "1 year", "fee": 28000, "sector": "tech" },
-      { "title": "MSc Finance", "nfq": "9", "duration": "1 year", "fee": 31000, "sector": "finance" },
-      { "title": "MSc Human Resource Management", "nfq": "9", "duration": "1 year", "fee": 22000, "sector": "business" }
+      {
+        "title": "BSc Computer Science",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 26000,
+        "sector": "tech"
+      },
+      {
+        "title": "BSc Business",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 22000,
+        "sector": "business"
+      },
+      {
+        "title": "BSc Nursing",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 21000,
+        "sector": "healthcare"
+      },
+      {
+        "title": "MSc Data Analytics",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 28000,
+        "sector": "tech"
+      },
+      {
+        "title": "MSc Finance",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 31000,
+        "sector": "finance"
+      },
+      {
+        "title": "MSc Human Resource Management",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 22000,
+        "sector": "business"
+      }
     ],
-    "sectors": ["tech", "finance", "healthcare", "engineering", "business"]
+    "sectors": [
+      "tech",
+      "finance",
+      "healthcare",
+      "engineering",
+      "business"
+    ]
   },
   {
     "slug": "ucc",
@@ -67,17 +167,61 @@
     "ilep": false,
     "trustedIreland": true,
     "description": "One of Ireland's leading research universities, located in the vibrant city of Cork. Known for sustainability and innovation.",
-    "feesUG": { "min": 16000, "max": 25000, "note": "Per year, non-EU" },
-    "feePG": { "min": 12000, "max": 30000, "note": "Per year, varies" },
+    "feesUG": {
+      "min": 16000,
+      "max": 25000,
+      "note": "Per year, non-EU"
+    },
+    "feePG": {
+      "min": 12000,
+      "max": 30000,
+      "note": "Per year, varies"
+    },
     "ielts": "6.5 minimum",
     "topCourses": [
-      { "title": "BSc Computer Science", "nfq": "8", "duration": "4 years", "fee": 20000, "sector": "tech" },
-      { "title": "BComm (Business)", "nfq": "8", "duration": "4 years", "fee": 18000, "sector": "business" },
-      { "title": "BSc Nursing", "nfq": "8", "duration": "4 years", "fee": 17000, "sector": "healthcare" },
-      { "title": "MSc Software Development", "nfq": "9", "duration": "1 year", "fee": 22000, "sector": "tech" },
-      { "title": "MSc Accounting", "nfq": "9", "duration": "1 year", "fee": 16000, "sector": "finance" }
+      {
+        "title": "BSc Computer Science",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 20000,
+        "sector": "tech"
+      },
+      {
+        "title": "BComm (Business)",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 18000,
+        "sector": "business"
+      },
+      {
+        "title": "BSc Nursing",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 17000,
+        "sector": "healthcare"
+      },
+      {
+        "title": "MSc Software Development",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 22000,
+        "sector": "tech"
+      },
+      {
+        "title": "MSc Accounting",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 16000,
+        "sector": "finance"
+      }
     ],
-    "sectors": ["tech", "finance", "healthcare", "engineering", "business"]
+    "sectors": [
+      "tech",
+      "finance",
+      "healthcare",
+      "engineering",
+      "business"
+    ]
   },
   {
     "slug": "dcu",
@@ -93,17 +237,61 @@
     "ilep": false,
     "trustedIreland": true,
     "description": "Ireland's university of enterprise, known for tech, business and communications. Strong industry partnerships.",
-    "feesUG": { "min": 15000, "max": 22000, "note": "Per year, non-EU" },
-    "feePG": { "min": 13000, "max": 25000, "note": "Per year, varies" },
-    "ielts": "6.5 minimum",
+    "feesUG": {
+      "min": 17600,
+      "max": 17600,
+      "note": "Per year, non-EU. dcu.ie"
+    },
+    "feePG": {
+      "min": 17600,
+      "max": 22000,
+      "note": "Per year, varies by faculty. dcu.ie"
+    },
+    "ielts": "6.5 overall, no band below 6.0",
     "topCourses": [
-      { "title": "BSc Computer Applications", "nfq": "8", "duration": "4 years", "fee": 18700, "sector": "tech" },
-      { "title": "BSc Biotechnology", "nfq": "8", "duration": "4 years", "fee": 17900, "sector": "engineering" },
-      { "title": "BSc Nursing", "nfq": "8", "duration": "4 years", "fee": 16900, "sector": "healthcare" },
-      { "title": "MSc Computing", "nfq": "9", "duration": "1 year", "fee": 18750, "sector": "tech" },
-      { "title": "MSc Finance & Investment", "nfq": "9", "duration": "1 year", "fee": 16450, "sector": "finance" }
+      {
+        "title": "BSc Computer Applications",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 18700,
+        "sector": "tech"
+      },
+      {
+        "title": "BSc Biotechnology",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 17900,
+        "sector": "engineering"
+      },
+      {
+        "title": "BSc Nursing",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 16900,
+        "sector": "healthcare"
+      },
+      {
+        "title": "MSc Computing",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 18750,
+        "sector": "tech"
+      },
+      {
+        "title": "MSc Finance & Investment",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 16450,
+        "sector": "finance"
+      }
     ],
-    "sectors": ["tech", "finance", "healthcare", "engineering", "business"]
+    "sectors": [
+      "tech",
+      "finance",
+      "healthcare",
+      "engineering",
+      "business"
+    ]
   },
   {
     "slug": "university-of-galway",
@@ -119,16 +307,54 @@
     "ilep": false,
     "trustedIreland": true,
     "description": "Located in the cultural capital of the west of Ireland. Strong in medicine, law and engineering.",
-    "feesUG": { "min": 16000, "max": 26000, "note": "Per year, non-EU" },
-    "feePG": { "min": 13000, "max": 28000, "note": "Per year, varies" },
+    "feesUG": {
+      "min": 16000,
+      "max": 26000,
+      "note": "Per year, non-EU"
+    },
+    "feePG": {
+      "min": 13000,
+      "max": 28000,
+      "note": "Per year, varies"
+    },
     "ielts": "6.5 minimum",
     "topCourses": [
-      { "title": "BSc Computer Science & IT", "nfq": "8", "duration": "4 years", "fee": 21000, "sector": "tech" },
-      { "title": "BSc Nursing", "nfq": "8", "duration": "4 years", "fee": 18000, "sector": "healthcare" },
-      { "title": "BComm Business", "nfq": "8", "duration": "4 years", "fee": 17000, "sector": "business" },
-      { "title": "MSc Data Analytics", "nfq": "9", "duration": "1 year", "fee": 21000, "sector": "tech" }
+      {
+        "title": "BSc Computer Science & IT",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 21000,
+        "sector": "tech"
+      },
+      {
+        "title": "BSc Nursing",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 18000,
+        "sector": "healthcare"
+      },
+      {
+        "title": "BComm Business",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 17000,
+        "sector": "business"
+      },
+      {
+        "title": "MSc Data Analytics",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 21000,
+        "sector": "tech"
+      }
     ],
-    "sectors": ["tech", "finance", "healthcare", "engineering", "business"]
+    "sectors": [
+      "tech",
+      "finance",
+      "healthcare",
+      "engineering",
+      "business"
+    ]
   },
   {
     "slug": "ul",
@@ -144,16 +370,54 @@
     "ilep": false,
     "trustedIreland": true,
     "description": "Ireland's most innovative university with Ireland's only dedicated co-op programme. Strong in STEM and business.",
-    "feesUG": { "min": 15000, "max": 23000, "note": "Per year, non-EU" },
-    "feePG": { "min": 12000, "max": 22000, "note": "Per year, varies" },
+    "feesUG": {
+      "min": 15000,
+      "max": 23000,
+      "note": "Per year, non-EU"
+    },
+    "feePG": {
+      "min": 12000,
+      "max": 22000,
+      "note": "Per year, varies"
+    },
     "ielts": "6.5 minimum",
     "topCourses": [
-      { "title": "BSc Computer Science", "nfq": "8", "duration": "4 years", "fee": 20000, "sector": "tech" },
-      { "title": "BSc Nursing", "nfq": "8", "duration": "4 years", "fee": 16500, "sector": "healthcare" },
-      { "title": "BSc Business Studies", "nfq": "8", "duration": "4 years", "fee": 16000, "sector": "business" },
-      { "title": "MSc Artificial Intelligence", "nfq": "9", "duration": "1 year", "fee": 22000, "sector": "tech" }
+      {
+        "title": "BSc Computer Science",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 20000,
+        "sector": "tech"
+      },
+      {
+        "title": "BSc Nursing",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 16500,
+        "sector": "healthcare"
+      },
+      {
+        "title": "BSc Business Studies",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 16000,
+        "sector": "business"
+      },
+      {
+        "title": "MSc Artificial Intelligence",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 22000,
+        "sector": "tech"
+      }
     ],
-    "sectors": ["tech", "finance", "healthcare", "engineering", "business"]
+    "sectors": [
+      "tech",
+      "finance",
+      "healthcare",
+      "engineering",
+      "business"
+    ]
   },
   {
     "slug": "maynooth",
@@ -169,15 +433,46 @@
     "ilep": false,
     "trustedIreland": true,
     "description": "Ireland's fastest growing university, known for computer science, arts and social sciences. 30 mins from Dublin.",
-    "feesUG": { "min": 14500, "max": 20000, "note": "Per year, non-EU" },
-    "feePG": { "min": 12000, "max": 20000, "note": "Per year, varies" },
+    "feesUG": {
+      "min": 14500,
+      "max": 20000,
+      "note": "Per year, non-EU"
+    },
+    "feePG": {
+      "min": 12000,
+      "max": 20000,
+      "note": "Per year, varies"
+    },
     "ielts": "6.5 minimum",
     "topCourses": [
-      { "title": "BSc Computer Science", "nfq": "8", "duration": "4 years", "fee": 17000, "sector": "tech" },
-      { "title": "BSc Business", "nfq": "8", "duration": "4 years", "fee": 15000, "sector": "business" },
-      { "title": "MSc Data Science", "nfq": "9", "duration": "1 year", "fee": 18000, "sector": "tech" }
+      {
+        "title": "BSc Computer Science",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 17000,
+        "sector": "tech"
+      },
+      {
+        "title": "BSc Business",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 15000,
+        "sector": "business"
+      },
+      {
+        "title": "MSc Data Science",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 18000,
+        "sector": "tech"
+      }
     ],
-    "sectors": ["tech", "finance", "business", "education"]
+    "sectors": [
+      "tech",
+      "finance",
+      "business",
+      "education"
+    ]
   },
   {
     "slug": "tudublin",
@@ -193,16 +488,53 @@
     "ilep": false,
     "trustedIreland": true,
     "description": "Ireland's first technological university. Three campuses in Dublin with strong practical and industry-focused degrees.",
-    "feesUG": { "min": 10000, "max": 18000, "note": "Per year, non-EU" },
-    "feePG": { "min": 8500, "max": 18000, "note": "Per year, varies" },
-    "ielts": "6.0 minimum",
+    "feesUG": {
+      "min": 11650,
+      "max": 21886,
+      "note": "Arts–STEM range. tudublin.ie"
+    },
+    "feePG": {
+      "min": 13500,
+      "max": 16500,
+      "note": "Per year, non-EU. tudublin.ie"
+    },
+    "ielts": "6.0 UG · 6.5 PG, no band below 6.0",
     "topCourses": [
-      { "title": "BSc Computing", "nfq": "8", "duration": "4 years", "fee": 13000, "sector": "tech" },
-      { "title": "BSc Business", "nfq": "8", "duration": "4 years", "fee": 11000, "sector": "business" },
-      { "title": "BSc Culinary Arts", "nfq": "8", "duration": "4 years", "fee": 10500, "sector": "hospitality" },
-      { "title": "MSc Data Analytics", "nfq": "9", "duration": "1 year", "fee": 14500, "sector": "tech" }
+      {
+        "title": "BSc Computing",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 13000,
+        "sector": "tech"
+      },
+      {
+        "title": "BSc Business",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 11000,
+        "sector": "business"
+      },
+      {
+        "title": "BSc Culinary Arts",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 10500,
+        "sector": "hospitality"
+      },
+      {
+        "title": "MSc Data Analytics",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 14500,
+        "sector": "tech"
+      }
     ],
-    "sectors": ["tech", "business", "hospitality", "engineering"]
+    "sectors": [
+      "tech",
+      "business",
+      "hospitality",
+      "engineering"
+    ]
   },
   {
     "slug": "griffith-college",
@@ -218,15 +550,45 @@
     "ilep": true,
     "trustedIreland": false,
     "description": "One of Ireland's largest private colleges with campuses in Dublin, Cork and Limerick. Strong in business, journalism and creative arts. ACCA & CIMA approved.",
-    "feesUG": { "min": 9500, "max": 14000, "note": "Per year, non-EU" },
-    "feePG": { "min": 9000, "max": 13000, "note": "Per year, varies" },
-    "ielts": "6.0 minimum",
+    "feesUG": {
+      "min": 13500,
+      "max": 16000,
+      "note": "Per year, non-EU. griffith.ie"
+    },
+    "feePG": {
+      "min": 14000,
+      "max": 17500,
+      "note": "Per year, non-EU. griffith.ie"
+    },
+    "ielts": "6.5 overall, no band below 6.0",
     "topCourses": [
-      { "title": "Bachelor of Business (Hons)", "nfq": "8", "duration": "3 years", "fee": 12000, "sector": "business" },
-      { "title": "ACCA Professional Programme", "nfq": null, "duration": "2–3 years", "fee": 5500, "sector": "finance" },
-      { "title": "English for General Purposes", "nfq": null, "duration": "Flexible", "fee": 3500, "sector": "language" }
+      {
+        "title": "Bachelor of Business (Hons)",
+        "nfq": "8",
+        "duration": "3 years",
+        "fee": 12000,
+        "sector": "business"
+      },
+      {
+        "title": "ACCA Professional Programme",
+        "nfq": null,
+        "duration": "2–3 years",
+        "fee": 5500,
+        "sector": "finance"
+      },
+      {
+        "title": "English for General Purposes",
+        "nfq": null,
+        "duration": "Flexible",
+        "fee": 3500,
+        "sector": "language"
+      }
     ],
-    "sectors": ["business", "finance", "language"]
+    "sectors": [
+      "business",
+      "finance",
+      "language"
+    ]
   },
   {
     "slug": "ibat",
@@ -242,15 +604,45 @@
     "ilep": true,
     "trustedIreland": false,
     "description": "Located in the heart of Dublin, IBAT specialises in business, IT and English language courses for international students.",
-    "feesUG": { "min": 8000, "max": 12000, "note": "Per year, non-EU" },
-    "feePG": { "min": 8500, "max": 12000, "note": "Per year, varies" },
-    "ielts": "5.5–6.0 minimum",
+    "feesUG": {
+      "min": 12000,
+      "max": 14000,
+      "note": "Per year, non-EU. ncirl.ie"
+    },
+    "feePG": {
+      "min": 17000,
+      "max": 17000,
+      "note": "Flat €17,000/yr. ncirl.ie"
+    },
+    "ielts": "6.0 UG · 6.5 PG, no band below 5.5",
     "topCourses": [
-      { "title": "BA (Hons) Business Management", "nfq": "8", "duration": "3 years", "fee": 10000, "sector": "business" },
-      { "title": "BSc (Hons) Information Technology", "nfq": "8", "duration": "3 years", "fee": 11500, "sector": "tech" },
-      { "title": "MA Business Management", "nfq": "9", "duration": "1 year", "fee": 11000, "sector": "business" }
+      {
+        "title": "BA (Hons) Business Management",
+        "nfq": "8",
+        "duration": "3 years",
+        "fee": 10000,
+        "sector": "business"
+      },
+      {
+        "title": "BSc (Hons) Information Technology",
+        "nfq": "8",
+        "duration": "3 years",
+        "fee": 11500,
+        "sector": "tech"
+      },
+      {
+        "title": "MA Business Management",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 11000,
+        "sector": "business"
+      }
     ],
-    "sectors": ["business", "tech", "language"]
+    "sectors": [
+      "business",
+      "tech",
+      "language"
+    ]
   },
   {
     "slug": "ichas",
@@ -266,15 +658,43 @@
     "ilep": true,
     "trustedIreland": false,
     "description": "Specialising in applied psychology, social care and counselling. Strong focus on health and social work professions.",
-    "feesUG": { "min": 8500, "max": 11000, "note": "Per year, non-EU" },
-    "feePG": { "min": 9000, "max": 12000, "note": "Per year, varies" },
+    "feesUG": {
+      "min": 8500,
+      "max": 11000,
+      "note": "Per year, non-EU"
+    },
+    "feePG": {
+      "min": 9000,
+      "max": 12000,
+      "note": "Per year, varies"
+    },
     "ielts": "6.0 minimum",
     "topCourses": [
-      { "title": "BSc (Hons) Applied Psychology", "nfq": "8", "duration": "4 years", "fee": 10000, "sector": "healthcare" },
-      { "title": "BA (Hons) Social Care Practice", "nfq": "8", "duration": "4 years", "fee": 9500, "sector": "healthcare" },
-      { "title": "MA Counselling & Psychotherapy", "nfq": "9", "duration": "2 years", "fee": 11000, "sector": "healthcare" }
+      {
+        "title": "BSc (Hons) Applied Psychology",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 10000,
+        "sector": "healthcare"
+      },
+      {
+        "title": "BA (Hons) Social Care Practice",
+        "nfq": "8",
+        "duration": "4 years",
+        "fee": 9500,
+        "sector": "healthcare"
+      },
+      {
+        "title": "MA Counselling & Psychotherapy",
+        "nfq": "9",
+        "duration": "2 years",
+        "fee": 11000,
+        "sector": "healthcare"
+      }
     ],
-    "sectors": ["healthcare"]
+    "sectors": [
+      "healthcare"
+    ]
   },
   {
     "slug": "american-college-dublin",
@@ -290,14 +710,42 @@
     "ilep": true,
     "trustedIreland": false,
     "description": "Liberal arts college in Dublin city centre with a strong international student community. QQI-accredited degrees.",
-    "feesUG": { "min": 11000, "max": 14000, "note": "Per year, non-EU" },
-    "feePG": { "min": 11000, "max": 14000, "note": "Per year, varies" },
-    "ielts": "6.0 minimum",
+    "feesUG": {
+      "min": 9500,
+      "max": 9500,
+      "note": "Per year, non-EU. amcd.ie"
+    },
+    "feePG": {
+      "min": 9500,
+      "max": 12000,
+      "note": "Per year, non-EU. amcd.ie"
+    },
+    "ielts": "6.0 UG · 6.5 PG",
     "topCourses": [
-      { "title": "BA (Hons) Liberal Arts", "nfq": "8", "duration": "3 years", "fee": 12500, "sector": "business" },
-      { "title": "BA (Hons) International Business", "nfq": "8", "duration": "3 years", "fee": 13000, "sector": "business" },
-      { "title": "Master of Business — International Business", "nfq": "9", "duration": "1 year", "fee": 14000, "sector": "business" }
+      {
+        "title": "BA (Hons) Liberal Arts",
+        "nfq": "8",
+        "duration": "3 years",
+        "fee": 12500,
+        "sector": "business"
+      },
+      {
+        "title": "BA (Hons) International Business",
+        "nfq": "8",
+        "duration": "3 years",
+        "fee": 13000,
+        "sector": "business"
+      },
+      {
+        "title": "Master of Business — International Business",
+        "nfq": "9",
+        "duration": "1 year",
+        "fee": 14000,
+        "sector": "business"
+      }
     ],
-    "sectors": ["business"]
+    "sectors": [
+      "business"
+    ]
   }
 ]
